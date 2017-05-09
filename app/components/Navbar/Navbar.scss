@@ -1,0 +1,25 @@
+.navbar {
+  padding: 1em 20px;
+  margin: 0 auto;
+  width: 100%;
+  top: 0;
+  left: 0;
+  position: fixed;
+  list-style: none;
+  height: 51px;
+  border-bottom: 1px solid #ccc;
+  background: #fff;
+}
+.navbarItem {
+  margin: 0 0 0 1em;
+  display: inline-block;
+  vertical-align: top;
+  
+  &:first-child {
+    margin-left: 0;
+  }
+}
+
+.active {
+  color: red;
+}
