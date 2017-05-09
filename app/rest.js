@@ -1,4 +1,6 @@
 /* global fetch, _api_ */
+const API_ENDPOINT = _api_ ? _api_ : 'http://musicbrainz.org/ws/2/';
+
 function getHeaders(additionalHeaders = {}) {
   const headers = {
     'Accept': 'text/plain',
@@ -39,8 +41,8 @@ function jsonCallback(res) {
   return data;
 }
 
-export function getData(query) {
-  return fetch(_api_, {
+export function searchAlbums(query) {
+  return fetch(`${API_ENDPOINT}release?fmt=json&query=${query}`, {
     method: 'GET',
     headers: getHeaders()
   })
