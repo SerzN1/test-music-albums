@@ -1,0 +1,20 @@
+.album {
+  background: #fff;
+  margin: 10px 0 0;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  padding: 10px;
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.albumTitle {
+  font-weight: bold;
+  margin: 0 0 1em;
+}
+.albumAction {
+  margin-top: 10px;
+}

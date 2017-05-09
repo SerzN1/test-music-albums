@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { SearchForm } from '../../components/';
+import { Album, Notification, SearchForm } from '../../components/';
 import { filterAlbums, searchAlbums } from '../../actions';
 
 export class AlbumSearch extends Component {
@@ -28,7 +28,7 @@ export class AlbumSearch extends Component {
   };
 
   render() {
-    const {filter, items} = this.props;
+    const {filter, items, loading, count, error} = this.props;
 
     return (
       <div>
@@ -38,12 +38,13 @@ export class AlbumSearch extends Component {
           onInput={this.handleFilterAlbums}
           onSubmit={this.handleSearchAlbums}
         />
+        <Notification display-if={loading} message="...loading" />
+        <Notification display-if={error} message={error} />
+        <Notification display-if={!count && !loading} message="Not found" />
         <div>
           {items.map(item => {
             return (
-              <div key={item.id}>
-                {JSON.stringify(item)}
-              </div>
+              <Album key={item.id} {...item} showSave={true} actionHandler={() => this.handleAlbumAction(item)} />
             );
           })}
         </div>
@@ -59,9 +60,10 @@ export default connect(
     count: state.loadedAlbums.count,
     loading: state.loadedAlbums.loading,
     error: state.loadedAlbums.error,
+    savedItems: state.savedAlbums.items,
   }),
   {
     filterAlbums,
-    searchAlbums
+    searchAlbums,
   }
 )(AlbumSearch);
