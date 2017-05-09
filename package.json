@@ -23,7 +23,10 @@
     },
     "globals": {
       "_api_": "http://localhost:3000"
-    }
+    },
+    "setupFiles": [
+      "<rootDir>/app/__mocks__/localStorageMock.js"
+    ]
   },
   "author": "SerzN1",
   "license": "MIT",
