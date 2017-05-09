@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Album, Notification, SearchForm } from '../../components/';
-import { filterAlbums, searchAlbums } from '../../actions';
+import {
+  searchAlbums,
+  filterAlbums,
+  getSavedAlbums,
+  addSavedAlbums,
+  removeSavedAlbums
+} from '../../actions';
 
 export class AlbumSearch extends Component {
   static propTypes = {
@@ -11,8 +17,24 @@ export class AlbumSearch extends Component {
     count: PropTypes.number.isRequired,
     loading: PropTypes.bool.isRequired,
     error: PropTypes.any,
-    filterAlbums: PropTypes.func.isRequired,
+    savedItems: PropTypes.object.isRequired,
     searchAlbums: PropTypes.func.isRequired,
+    filterAlbums: PropTypes.func.isRequired,
+    getSavedAlbums: PropTypes.func.isRequired,
+    addSavedAlbums: PropTypes.func.isRequired,
+    removeSavedAlbums: PropTypes.func.isRequired,
+  };
+
+  componentWillMount() {
+    this.props.getSavedAlbums();
+  }
+
+  handleAlbumAction = (item) => {
+    if (this.props.savedItems[item.id]) {
+      this.props.removeSavedAlbums(item.id);
+    } else {
+      this.props.addSavedAlbums(item.id, item);
+    }
   };
 
   handleFilterAlbums = (filterValue) => {
@@ -28,7 +50,7 @@ export class AlbumSearch extends Component {
   };
 
   render() {
-    const {filter, items, loading, count, error} = this.props;
+    const {filter, items, loading, count, error, savedItems} = this.props;
 
     return (
       <div>
@@ -43,8 +65,9 @@ export class AlbumSearch extends Component {
         <Notification display-if={!count && !loading} message="Not found" />
         <div>
           {items.map(item => {
+            const isSaved = savedItems[item.id];
             return (
-              <Album key={item.id} {...item} showSave={true} actionHandler={() => this.handleAlbumAction(item)} />
+              <Album key={item.id} {...item} showSave={!isSaved} actionHandler={() => this.handleAlbumAction(item)} />
             );
           })}
         </div>
@@ -65,5 +88,8 @@ export default connect(
   {
     filterAlbums,
     searchAlbums,
+    getSavedAlbums,
+    addSavedAlbums,
+    removeSavedAlbums
   }
 )(AlbumSearch);
