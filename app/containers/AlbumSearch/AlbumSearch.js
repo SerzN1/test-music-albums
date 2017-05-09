@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {filterAlbums, searchAlbums} from '../../actions';
+import { SearchForm } from '../../components/';
+import { filterAlbums, searchAlbums } from '../../actions';
 
 export class AlbumSearch extends Component {
   static propTypes = {
@@ -32,14 +33,11 @@ export class AlbumSearch extends Component {
     return (
       <div>
         <h1>Search album</h1>
-        <form onSubmit={this.handleSearchAlbums}>
-          <input
-            type="text"
-            defaultValue={filter}
-            onChange={(e) => this.handleFilterAlbums(e.target.value)}
-          />
-          <button type="submit">Search album</button>
-        </form>
+        <SearchForm
+          defaultValue={filter}
+          onInput={this.handleFilterAlbums}
+          onSubmit={this.handleSearchAlbums}
+        />
         <div>
           {items.map(item => {
             return (
